@@ -1,0 +1,1 @@
+# BittrexApi.NetCore
