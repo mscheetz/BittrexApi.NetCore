@@ -68,9 +68,83 @@ namespace BittrexApi.NetCore.Data.Interfaces
         #endregion Public
 
         #region Market
+
+        /// <summary>
+        /// Place a limit order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <param name="price">Price of trade</param>
+        /// <returns>String of order id</returns>
+        Task<string> PlaceOrder(string pair, Side side, decimal quantity, decimal price);
+
+        /// <summary>
+        /// Cancel an order.
+        /// </summary>
+        /// <param name="id">OpenOrder id</param>
+        /// <returns>String of order id</returns>
+        Task<string> CancelOrder(string id);
+
+        /// <summary>
+        /// Get open orders.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <returns>Array of OpenOrder objects</returns>
+        Task<OpenOrder[]> GetOpenOrders(string pair);
+
         #endregion Market
 
         #region Account
+
+        /// <summary>
+        /// Get account balances
+        /// </summary>
+        /// <returns>Array of Balance objects</returns>
+        Task<Balance[]> GetBalances();
+
+        /// <summary>
+        /// Get account balance of a currency
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <returns>Balance object</returns>
+        Task<Balance> GetBalance(string symbol);
+
+        /// <summary>
+        /// Get an address for a currency
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <returns>String of address</returns>
+        Task<string> GetDepositAddress(string symbol);
+
+        /// <summary>
+        /// Get an order
+        /// </summary>
+        /// <param name="id">Id of order</param>
+        /// <returns>OrderDetail object</returns>
+        Task<OrderDetail> GetOrder(string id);
+
+        /// <summary>
+        /// Get order history
+        /// </summary>
+        /// <param name="pair">Trading pair to find (optional)</param>
+        /// <returns>Array of Order objects</returns>
+        Task<Order[]> GetOrderHistory(string pair = "");
+
+        /// <summary>
+        /// Get deposit history
+        /// </summary>
+        /// <param name="symbol">Symbol to find (optional)</param>
+        /// <returns>Array of DepositWithdrawal objects</returns>
+        Task<DepositWithdrawal[]> GetDeposits(string symbol = "");
+
+        /// <summary>
+        /// Get withdrawal history
+        /// </summary>
+        /// <param name="symbol">Symbol to find (optional)</param>
+        /// <returns>Array of DepositWithdrawal objects</returns>
+        Task<DepositWithdrawal[]> GetWithdrawals(string symbol = "");
+
         #endregion Account
     }
 }

@@ -127,5 +127,13 @@ namespace BittrexApi.NetCore.Tests
 
             Assert.NotNull(marketHistory);
         }
+
+        [Fact]
+        public void GetBalancesTest()
+        {
+            var balances = _repo.GetBalances();
+
+            Assert.NotNull(balances);
+        }
     }
 }

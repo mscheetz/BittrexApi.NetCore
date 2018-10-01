@@ -37,28 +37,28 @@ namespace BittrexApi.NetCore.Data
         /// </summary>
         /// <param name="apiKey">Api key</param>
         /// <param name="apiSecret">Api secret</param>
-        public BittrexRepository(string apiKey, string apiSecret, string version = "")
+        public BittrexRepository(string apiKey, string apiSecret)
         {
             _apiInfo = new ApiInformation
             {
                 apiKey = apiKey,
                 apiSecret = apiSecret
             };
-            LoadRepository(version);
+            LoadRepository();
         }
 
         /// <summary>
         /// Constructor for signed endpoints
         /// </summary>
         /// <param name="configPath">String of path to configuration file</param>
-        public BittrexRepository(string configPath, string version = "")
+        public BittrexRepository(string configPath)
         {
             IFileRepository _fileRepo = new FileRepository.FileRepository();
 
             if (_fileRepo.FileExists(configPath))
             {
                 _apiInfo = _fileRepo.GetDataFromFile<ApiInformation>(configPath);
-                LoadRepository(version);
+                LoadRepository();
             }
             else
             {
@@ -69,14 +69,11 @@ namespace BittrexApi.NetCore.Data
         /// <summary>
         /// Load repository
         /// </summary>
-        private void LoadRepository(string version = "")
+        private void LoadRepository()
         {
             security = new Security();
             _restRepo = new RESTRepository();
             _dtHelper = new DateTimeHelper();
-            if (version != "")
-                _version = version;
-
             baseUrl = $"https://bittrex.com/api/v{_version}";
             _helper = new Helper();
         }
@@ -136,10 +133,10 @@ namespace BittrexApi.NetCore.Data
         {
             var endpoint = "/public/getticker";
 
-            var paramters = new Dictionary<string, object>();
-            paramters.Add("market", pair);
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("market", pair);
 
-            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(paramters);
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             try
             {
@@ -184,10 +181,10 @@ namespace BittrexApi.NetCore.Data
         {
             var endpoint = "/public/getmarketsummary";
 
-            var paramters = new Dictionary<string, object>();
-            paramters.Add("market", pair);
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("market", pair);
 
-            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(paramters);
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             try
             {
@@ -250,11 +247,11 @@ namespace BittrexApi.NetCore.Data
         {
             var endpoint = "/public/getorderbook";
 
-            var paramters = new Dictionary<string, object>();
-            paramters.Add("market", pair);
-            paramters.Add("type", OrderType.BOTH.ToString().ToLower());
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("market", pair);
+            parameters.Add("type", OrderType.BOTH.ToString().ToLower());
 
-            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(paramters);
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             try
             {
@@ -278,11 +275,11 @@ namespace BittrexApi.NetCore.Data
         {
             var endpoint = "/public/getorderbook";
 
-            var paramters = new Dictionary<string, object>();
-            paramters.Add("market", pair);
-            paramters.Add("type", type.ToString().ToLower());
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("market", pair);
+            parameters.Add("type", type.ToString().ToLower());
 
-            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(paramters);
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             try
             {
@@ -306,10 +303,10 @@ namespace BittrexApi.NetCore.Data
         {
             var endpoint = "/public/getmarkethistory";
 
-            var paramters = new Dictionary<string, object>();
-            paramters.Add("market", pair);
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("market", pair);
 
-            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(paramters);
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             try
             {
@@ -326,9 +323,334 @@ namespace BittrexApi.NetCore.Data
         #endregion Public
 
         #region Market
+
+        /// <summary>
+        /// Place a limit order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <param name="price">Price of trade</param>
+        /// <returns>String of order id</returns>
+        public async Task<string> PlaceOrder(string pair, Side side, decimal quantity, decimal price)
+        {
+            var endpoint = side == Side.BUY 
+                ? "/market/buylimit"
+                : "/market/selllimit";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("market", pair);
+            parameters.Add("quantity", quantity);
+            parameters.Add("rate", price);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url);
+
+                return response.result["uuid"].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Cancel an order.
+        /// </summary>
+        /// <param name="id">OpenOrder id</param>
+        /// <returns>String of order id</returns>
+        public async Task<string> CancelOrder(string id)
+        {
+            var endpoint = "/market/cancel";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("uuid", id);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url);
+
+                return response.result["uuid"].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get open orders.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <returns>Array of OpenOrder objects</returns>
+        public async Task<OpenOrder[]> GetOpenOrders(string pair)
+        {
+            var endpoint = "/market/getopenorders";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("market", pair);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<OpenOrder[]>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         #endregion Market
 
         #region Account
+
+        /// <summary>
+        /// Get account balances
+        /// </summary>
+        /// <returns>Array of Balance objects</returns>
+        public async Task<Balance[]> GetBalances()
+        {
+            var endpoint = "/account/getbalances";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Balance[]>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get account balance of a currency
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <returns>Balance object</returns>
+        public async Task<Balance> GetBalance(string symbol)
+        {
+            var endpoint = "/account/getbalance";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("currency", symbol);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Balance>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get an address for a currency
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <returns>String of address</returns>
+        public async Task<string> GetDepositAddress(string symbol)
+        {
+            var endpoint = "/account/getdepositaddress";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("currency", symbol);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url, headers);
+
+                return response.result["Address"].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get an order
+        /// </summary>
+        /// <param name="id">Id of order</param>
+        /// <returns>OrderDetail object</returns>
+        public async Task<OrderDetail> GetOrder(string id)
+        {
+            var endpoint = "/account/getorder";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("uuid", id);
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream< Response<OrderDetail>> (url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get order history
+        /// </summary>
+        /// <param name="pair">Trading pair to find (optional)</param>
+        /// <returns>Array of Order objects</returns>
+        public async Task<Order[]> GetOrderHistory(string pair = "")
+        {
+            var endpoint = "/account/getorderhistory";
+            var url = baseUrl + endpoint;
+
+            var parameters = new Dictionary<string, object>();
+            if (pair != "")
+            {
+                parameters.Add("market", pair);
+                url += "?" + _helper.StringifyDictionary(parameters);
+            }
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Order[]>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get deposit history
+        /// </summary>
+        /// <param name="symbol">Symbol to find (optional)</param>
+        /// <returns>Array of DepositWithdrawal objects</returns>
+        public async Task<DepositWithdrawal[]> GetDeposits(string symbol = "")
+        {
+            var endpoint = "/account/getdeposithistory";
+            var url = baseUrl + endpoint;
+
+            var parameters = new Dictionary<string, object>();
+            if (symbol != "")
+            {
+                parameters.Add("currency", symbol);
+                url += "?" + _helper.StringifyDictionary(parameters);
+            }
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<DepositWithdrawal[]>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get withdrawal history
+        /// </summary>
+        /// <param name="symbol">Symbol to find (optional)</param>
+        /// <returns>Array of DepositWithdrawal objects</returns>
+        public async Task<DepositWithdrawal[]> GetWithdrawals(string symbol = "")
+        {
+            var endpoint = "/account/getwithdrawalhistory";
+            var url = baseUrl + endpoint;
+
+            var parameters = new Dictionary<string, object>();
+            if (symbol != "")
+            {
+                parameters.Add("currency", symbol);
+                url += "?" + _helper.StringifyDictionary(parameters);
+            }
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<DepositWithdrawal[]>>(url, headers);
+
+                return response.result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         #endregion Account
+
+        #region Helpers
+
+        /// <summary>
+        /// Get headers for a secured request
+        /// </summary>
+        /// <param name="url">Url to access</param>
+        /// <returns>Dictionary of headers</returns>
+        private Dictionary<string, string> GetHeaders(string url)
+        {
+            var headers = new Dictionary<string, string>();
+            headers.Add("apisign", GetSignature(url));
+
+            return headers;
+        }
+
+        /// <summary>
+        /// Get signature for endpoint
+        /// </summary>
+        /// <param name="message">Message to sign</param>
+        /// <returns>String of signature</returns>
+        private string GetSignature(string message)
+        {
+            return security.GetHMACSignature(message, _apiInfo.apiSecret);
+        }
+
+        #endregion Helpers
     }
 }

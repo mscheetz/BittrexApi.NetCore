@@ -10,4 +10,10 @@ namespace BittrexApi.NetCore.Entities
         SELL,
         BOTH
     }
+
+    public enum Side
+    {
+        BUY,
+        SELL
+    }
 }
