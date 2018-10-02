@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Authors>Matt Scheetz</Authors>
+    <Description>Api library for accessing the Bittrex exchange Api</Description>
+    <Copyright>2018 Matt Scheetz</Copyright>
+    <PackageLicenseUrl>https://github.com/mscheetz/BittrexApi.NetCore/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/mscheetz/BittrexApi.NetCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mscheetz/BittrexApi.NetCore</RepositoryUrl>
+    <RepositoryType></RepositoryType>
+    <IsPackable>true</IsPackable>
+    <PackageTags>bittrex bitcoin cryptocurrency exchange trading api net core</PackageTags>
+    <PackageReleaseNotes>Api library for accessing the Bittrex exchange Api</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
