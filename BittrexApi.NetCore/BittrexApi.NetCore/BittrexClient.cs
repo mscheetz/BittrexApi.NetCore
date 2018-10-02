@@ -116,7 +116,7 @@ namespace BittrexApi.NetCore
         }
 
         /// <summary>
-        /// Get the orderbook for a market.
+        /// Get the latest trades that have occured for a specific market.
         /// </summary>
         /// <param name="pair">Trading pair</param>
         /// <param name="type">Type of orderbook to return (default = both)</param>
