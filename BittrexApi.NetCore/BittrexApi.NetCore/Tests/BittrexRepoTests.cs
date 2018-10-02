@@ -3,8 +3,6 @@ using BittrexApi.NetCore.Data.Interfaces;
 using BittrexApi.NetCore.Entities;
 using FileRepository;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace BittrexApi.NetCore.Tests
@@ -41,6 +39,8 @@ namespace BittrexApi.NetCore.Tests
         {
 
         }
+
+        #region Public
 
         [Fact]
         public void GetMarketsTest()
@@ -128,12 +128,97 @@ namespace BittrexApi.NetCore.Tests
             Assert.NotNull(marketHistory);
         }
 
+        #endregion
+
+        #region Market
+
+        [Fact]
+        public void PlaceAndGetOrderAndGetOpenAndCancelOrderTest()
+        {
+            var pair = "BTC-TRX";
+            var quantity = 100.0M;
+            var price = 0.00009999M;
+            var side = Side.SELL;
+
+            var id = _repo.PlaceOrder(pair, side, quantity, price).Result;
+
+            Assert.NotNull(id);
+
+            var order = _repo.GetOrder(id).Result;
+
+            Assert.NotNull(order);
+
+            var orders = _repo.GetOpenOrders(pair).Result;
+
+            Assert.NotNull(orders);
+
+            var status = _repo.CancelOrder(id).Result;
+
+            Assert.True(status);
+        }
+
+        #endregion
+
+        #region Account 
+
         [Fact]
         public void GetBalancesTest()
         {
-            var balances = _repo.GetBalances();
+            var balances = _repo.GetBalances().Result;
 
             Assert.NotNull(balances);
         }
+
+        [Fact]
+        public void GetBalanceTest()
+        {
+            var symbol = "TRX";
+
+            var balance = _repo.GetBalance(symbol).Result;
+
+            Assert.NotNull(balance);
+        }
+
+        [Fact]
+        public void GetDepositAddressTest()
+        {
+            var symbol = "XLM";
+
+            var address = _repo.GetDepositAddress(symbol).Result;
+
+            Assert.NotNull(address);
+        }
+
+        [Fact]
+        public void GetOrderHistoryTest()
+        {
+            var pair = "BTC-TRX";
+
+            var orders = _repo.GetOrderHistory(pair).Result;
+
+            Assert.NotNull(orders);
+        }
+
+        [Fact]
+        public void GetDepositHistoryTest()
+        {
+            var symbol = "ZCL";
+
+            var deposits = _repo.GetDeposits(symbol).Result;
+
+            Assert.NotNull(deposits);
+        }
+
+        [Fact]
+        public void GetWithdrawalHistoryTest()
+        {
+            var symbol = "ZCL";
+
+            var withdrawals = _repo.GetWithdrawals(symbol).Result;
+
+            Assert.NotNull(withdrawals);
+        }
+
+        #endregion
     }
 }

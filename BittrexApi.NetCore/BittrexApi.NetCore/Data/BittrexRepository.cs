@@ -21,7 +21,6 @@ namespace BittrexApi.NetCore.Data
         private ApiInformation _apiInfo = null;
         private Helper _helper;
         private string baseUrl;
-        private Dictionary<int, string> errorCodes;
         private string _version = "1.1";
 
         /// <summary>
@@ -76,6 +75,19 @@ namespace BittrexApi.NetCore.Data
             _dtHelper = new DateTimeHelper();
             baseUrl = $"https://bittrex.com/api/v{_version}";
             _helper = new Helper();
+        }
+
+        /// <summary>
+        /// Check if the Exchange Repository is ready for trading
+        /// </summary>
+        /// <returns>Boolean of validation</returns>
+        public bool ValidateExchangeConfigured()
+        {
+            var ready = _apiInfo == null || string.IsNullOrEmpty(_apiInfo.apiKey) ? false : true;
+            if (!ready)
+                return false;
+
+            return string.IsNullOrEmpty(_apiInfo.apiSecret) ? false : true;
         }
 
         #region Public
@@ -341,14 +353,17 @@ namespace BittrexApi.NetCore.Data
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("market", pair);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
             parameters.Add("quantity", quantity);
             parameters.Add("rate", price);
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
+            var headers = GetHeaders(url);
+
             try
             {
-                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url);
+                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url, headers);
 
                 return response.result["uuid"].ToString();
             }
@@ -362,22 +377,25 @@ namespace BittrexApi.NetCore.Data
         /// Cancel an order.
         /// </summary>
         /// <param name="id">OpenOrder id</param>
-        /// <returns>String of order id</returns>
-        public async Task<string> CancelOrder(string id)
+        /// <returns>Boolean of cancel attempt</returns>
+        public async Task<bool> CancelOrder(string id)
         {
             var endpoint = "/market/cancel";
 
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("uuid", id);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
+            var headers = GetHeaders(url);
+
             try
             {
-                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url);
+                var response = await _restRepo.GetApiStream<Response<string>>(url, headers);
 
-                return response.result["uuid"].ToString();
+                return response.success;
             }
             catch (Exception ex)
             {
@@ -397,6 +415,7 @@ namespace BittrexApi.NetCore.Data
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("market", pair);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
@@ -428,6 +447,7 @@ namespace BittrexApi.NetCore.Data
 
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
@@ -457,6 +477,7 @@ namespace BittrexApi.NetCore.Data
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("currency", symbol);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
@@ -486,6 +507,7 @@ namespace BittrexApi.NetCore.Data
             var parameters = new Dictionary<string, object>();
             parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("currency", symbol);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
@@ -513,7 +535,9 @@ namespace BittrexApi.NetCore.Data
             var endpoint = "/account/getorder";
 
             var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
             parameters.Add("uuid", id);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
 
             var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
@@ -539,14 +563,16 @@ namespace BittrexApi.NetCore.Data
         public async Task<Order[]> GetOrderHistory(string pair = "")
         {
             var endpoint = "/account/getorderhistory";
-            var url = baseUrl + endpoint;
 
             var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
             if (pair != "")
             {
                 parameters.Add("market", pair);
-                url += "?" + _helper.StringifyDictionary(parameters);
             }
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             var headers = GetHeaders(url);
 
@@ -570,14 +596,16 @@ namespace BittrexApi.NetCore.Data
         public async Task<DepositWithdrawal[]> GetDeposits(string symbol = "")
         {
             var endpoint = "/account/getdeposithistory";
-            var url = baseUrl + endpoint;
 
             var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
             if (symbol != "")
             {
                 parameters.Add("currency", symbol);
-                url += "?" + _helper.StringifyDictionary(parameters);
             }
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             var headers = GetHeaders(url);
 
@@ -601,14 +629,16 @@ namespace BittrexApi.NetCore.Data
         public async Task<DepositWithdrawal[]> GetWithdrawals(string symbol = "")
         {
             var endpoint = "/account/getwithdrawalhistory";
-            var url = baseUrl + endpoint;
 
             var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
             if (symbol != "")
             {
                 parameters.Add("currency", symbol);
-                url += "?" + _helper.StringifyDictionary(parameters);
             }
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
 
             var headers = GetHeaders(url);
 

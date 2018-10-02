@@ -8,6 +8,12 @@ namespace BittrexApi.NetCore.Data.Interfaces
 {
     public interface IBittrexRepository
     {
+        /// <summary>
+        /// Check if the Exchange Repository is ready for trading
+        /// </summary>
+        /// <returns>Boolean of validation</returns>
+        bool ValidateExchangeConfigured();
+
         #region Public
 
         /// <summary>
@@ -83,8 +89,8 @@ namespace BittrexApi.NetCore.Data.Interfaces
         /// Cancel an order.
         /// </summary>
         /// <param name="id">OpenOrder id</param>
-        /// <returns>String of order id</returns>
-        Task<string> CancelOrder(string id);
+        /// <returns>Boolean of cancel attempt</returns>
+        Task<bool> CancelOrder(string id);
 
         /// <summary>
         /// Get open orders.

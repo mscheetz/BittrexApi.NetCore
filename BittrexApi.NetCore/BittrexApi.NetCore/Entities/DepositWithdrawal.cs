@@ -12,7 +12,7 @@ namespace BittrexApi.NetCore.Entities
         [JsonProperty(PropertyName = "Currency")]
         public string symbol { get; set; }
         [JsonProperty(PropertyName = "Amount")]
-        public decimal quantitt { get; set; }
+        public decimal quantity { get; set; }
         [JsonProperty(PropertyName = "Address")]
         public string address { get; set; }
         [JsonProperty(PropertyName = "Opened")]
