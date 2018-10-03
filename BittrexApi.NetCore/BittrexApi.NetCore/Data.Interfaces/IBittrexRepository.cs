@@ -124,6 +124,25 @@ namespace BittrexApi.NetCore.Data.Interfaces
         Task<string> GetDepositAddress(string symbol);
 
         /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <returns>String of withdraw id</returns>
+        Task<string> WithdrawFunds(string symbol, decimal quantity, string address);
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <param name="memo">memo/message/tag/paymentid option (optional)</param>
+        /// <returns>String of withdraw id</returns>
+        Task<string> WithdrawFunds(string symbol, decimal quantity, string address, string memo);
+
+        /// <summary>
         /// Get an order
         /// </summary>
         /// <param name="id">Id of order</param>

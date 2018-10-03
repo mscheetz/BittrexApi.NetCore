@@ -11,7 +11,8 @@
     <RepositoryType></RepositoryType>
     <IsPackable>true</IsPackable>
     <PackageTags>bittrex bitcoin cryptocurrency exchange trading api net core</PackageTags>
-    <PackageReleaseNotes>Api library for accessing the Bittrex exchange Api</PackageReleaseNotes>
+    <PackageReleaseNotes>Add withdraw funds functionality</PackageReleaseNotes>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

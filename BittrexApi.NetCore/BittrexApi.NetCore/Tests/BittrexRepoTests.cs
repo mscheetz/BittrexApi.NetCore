@@ -190,6 +190,19 @@ namespace BittrexApi.NetCore.Tests
         }
 
         [Fact]
+        public void WithdrawFundsTest()
+        {
+            var symbol = "XLM";
+            var quantity = 99.99M;
+            var address = "GAHK7EEG2WWHVKDNT4CEQFZGKF2LGDSW2IVM4S5DP42RBW3K6BTODB4A";
+            var memo = "1046303265";
+
+            var withdrawId = _repo.Withdraw(symbol, quantity, address, memo).Result;
+
+            Assert.NotNull(withdrawId);
+        }
+
+        [Fact]
         public void GetOrderHistoryTest()
         {
             var pair = "BTC-TRX";

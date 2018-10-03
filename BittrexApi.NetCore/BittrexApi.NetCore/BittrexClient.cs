@@ -309,6 +309,31 @@ namespace BittrexApi.NetCore
         }
 
         /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <returns>String of withdraw id</returns>
+        public string WithdrawFunds(string symbol, decimal quantity, string address)
+        {
+            return _repository.WithdrawFunds(symbol, quantity, address).Result;
+        }
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <param name="memo">memo/message/tag/paymentid option (optional)</param>
+        /// <returns>String of withdraw id</returns>
+        public string WithdrawFunds(string symbol, decimal quantity, string address, string memo)
+        {
+            return _repository.WithdrawFunds(symbol, quantity, address, memo).Result;
+        }
+
+        /// <summary>
         /// Get an order
         /// </summary>
         /// <param name="id">Id of order</param>
@@ -375,6 +400,31 @@ namespace BittrexApi.NetCore
         public async Task<string> GetDepositAddressAsync(string symbol)
         {
             return await _repository.GetDepositAddress(symbol);
+        }
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <returns>String of withdraw id</returns>
+        public async Task<string> WithdrawFundsAsync(string symbol, decimal quantity, string address)
+        {
+            return await _repository.WithdrawFunds(symbol, quantity, address);
+        }
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <param name="memo">memo/message/tag/paymentid option (optional)</param>
+        /// <returns>String of withdraw id</returns>
+        public async Task<string> WithdrawFundsAsync(string symbol, decimal quantity, string address, string memo)
+        {
+            return await _repository.WithdrawFunds(symbol, quantity, address, memo);
         }
 
         /// <summary>

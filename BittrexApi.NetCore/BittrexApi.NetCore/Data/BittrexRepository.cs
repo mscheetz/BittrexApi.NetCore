@@ -526,6 +526,68 @@ namespace BittrexApi.NetCore.Data
         }
 
         /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <returns>String of withdraw id</returns>
+        public async Task<string> WithdrawFunds(string symbol, decimal quantity, string address)
+        {
+            return await OnWithdraw(symbol, quantity, address, "");
+        }
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <param name="memo">memo/message/tag/paymentid option (optional)</param>
+        /// <returns>String of withdraw id</returns>
+        public async Task<string> WithdrawFunds(string symbol, decimal quantity, string address, string memo)
+        {
+            return await OnWithdraw(symbol, quantity, address, memo);
+        }
+
+        /// <summary>
+        /// Withdraw funds from exchange
+        /// </summary>
+        /// <param name="symbol">Symbol of currency</param>
+        /// <param name="quantity">Quantity to withdraw</param>
+        /// <param name="address">Address to send to</param>
+        /// <param name="memo">memo/message/tag/paymentid option (optional)</param>
+        /// <returns>String of withdraw id</returns>
+        private async Task<string> OnWithdraw(string symbol, decimal quantity, string address, string memo)
+        {
+            var endpoint = "/account/withdraw";
+
+            var parameters = new Dictionary<string, object>();
+            parameters.Add("apikey", _apiInfo.apiKey);
+            parameters.Add("currency", symbol);
+            parameters.Add("quantity", quantity);
+            parameters.Add("address", address);
+            if(!string.IsNullOrEmpty(memo))
+                parameters.Add("paymentId", memo);
+            parameters.Add("nonce", _dtHelper.UTCtoUnixTimeMilliseconds());
+
+            var url = baseUrl + endpoint + "?" + _helper.StringifyDictionary(parameters);
+
+            var headers = GetHeaders(url);
+
+            try
+            {
+                var response = await _restRepo.GetApiStream<Response<Dictionary<string, string>>>(url, headers);
+
+                return response.result["uuid"].ToString();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Get an order
         /// </summary>
         /// <param name="id">Id of order</param>
