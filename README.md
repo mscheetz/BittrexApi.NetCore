@@ -58,6 +58,7 @@ GetOrder() | GetOrderAsync() - Get information for an order
 GetOrders() | GetOrdersAsync() - Get all current user order information  
 GetOrderHistory() | GetOrderHistoryAsync() - Get order history for account  
 GetWithdrawals() | GetWithdrawalsAsync() - Get withdrawal history  
+WithdrawFunds() | WithdrawFundsAsync() - Withdraw funds from exchange  
 PlaceOrder() | PlaceOrderAsync() - Place a new trade  
 CancelOrder() | CancelOrderAsync() - Cancel a current open trade  
 GetOpenOrders()  | GetOpenOrdersAsync() - Get all current user open orders  
