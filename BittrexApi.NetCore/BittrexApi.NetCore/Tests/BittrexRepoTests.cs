@@ -197,7 +197,7 @@ namespace BittrexApi.NetCore.Tests
             var address = "GAHK7EEG2WWHVKDNT4CEQFZGKF2LGDSW2IVM4S5DP42RBW3K6BTODB4A";
             var memo = "1046303265";
 
-            var withdrawId = _repo.Withdraw(symbol, quantity, address, memo).Result;
+            var withdrawId = _repo.WithdrawFunds(symbol, quantity, address, memo).Result;
 
             Assert.NotNull(withdrawId);
         }
