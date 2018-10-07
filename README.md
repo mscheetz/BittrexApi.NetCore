@@ -9,6 +9,7 @@ PM> Install-Package BittrexApi.NetCore
   
 To trade, log into your Bittrex account and create an api key with trading permissions:  
 Settings -> API Keys -> Create (with Read Info & Limit and Market Trading)  
+** if you wish to use withdraw endpoint, you need to enable withdraws on your API key  
 Store your API Key & Secret Key  
   
 Initialization:  
