@@ -9,6 +9,7 @@ PM> Install-Package BittrexApi.NetCore
   
 To trade, log into your Bittrex account and create an api key with trading permissions:  
 Settings -> API Keys -> Create (with Read Info & Limit and Market Trading)  
+** if you wish to use withdraw endpoint, you need to enable withdraws on your API key  
 Store your API Key & Secret Key  
   
 Initialization:  
@@ -58,6 +59,7 @@ GetOrder() | GetOrderAsync() - Get information for an order
 GetOrders() | GetOrdersAsync() - Get all current user order information  
 GetOrderHistory() | GetOrderHistoryAsync() - Get order history for account  
 GetWithdrawals() | GetWithdrawalsAsync() - Get withdrawal history  
+WithdrawFunds() | WithdrawFundsAsync() - Withdraw funds from exchange  
 PlaceOrder() | PlaceOrderAsync() - Place a new trade  
 CancelOrder() | CancelOrderAsync() - Cancel a current open trade  
 GetOpenOrders()  | GetOpenOrdersAsync() - Get all current user open orders  
