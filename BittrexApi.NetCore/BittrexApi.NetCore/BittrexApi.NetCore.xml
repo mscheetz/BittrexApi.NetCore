@@ -1,0 +1,705 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BittrexApi.NetCore</name>
+    </assembly>
+    <members>
+        <member name="M:BittrexApi.NetCore.BittrexClient.#ctor">
+            <summary>
+            Constructor - no authentication
+            </summary>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.#ctor(System.String,System.String)">
+            <summary>
+            Constructor - with authentication
+            </summary>
+            <param name="apiKey">Api key</param>
+            <param name="apiSecret">Api secret</param>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.#ctor(System.String)">
+            <summary>
+            Constructor - with authentication
+            </summary>
+            <param name="configPath">Path to config file</param>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.ValidateExchangeConfigured">
+            <summary>
+            Check if the Exchange Repository is ready for trading
+            </summary>
+            <returns>Boolean of validation</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarkets">
+            <summary>
+            Get the open and available trading markets at Bittrex
+            </summary>
+            <returns>Array of Market objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetCurrencies">
+            <summary>
+            Get all supported currencies at Bittrex
+            </summary>
+            <returns>Array of Currency objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetTicker(System.String)">
+            <summary>
+            Get the current tick values for a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Ticker object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketSummaries">
+            <summary>
+            Get the last 24 hour summary of all active markets
+            </summary>
+            <returns>Array of MarketSummary objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketSummary(System.String)">
+            <summary>
+            Get the last 24 hour summary of a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>MarketSummary object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderBook(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderBook(System.String,BittrexApi.NetCore.Entities.OrderType)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (BUY | SELL | BOTH)</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketHistory(System.String)">
+            <summary>
+            Get the latest trades that have occured for a specific market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (default = both)</param>
+            <returns>Array of MarketHistory objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketsAsync">
+            <summary>
+            Get the open and available trading markets at Bittrex
+            </summary>
+            <returns>Array of Market objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetCurrenciesAsync">
+            <summary>
+            Get all supported currencies at Bittrex
+            </summary>
+            <returns>Array of Currency objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetTickerAsync(System.String)">
+            <summary>
+            Get the current tick values for a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Ticker object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketSummariesAsync">
+            <summary>
+            Get the last 24 hour summary of all active markets
+            </summary>
+            <returns>Array of MarketSummary objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketSummaryAsync(System.String)">
+            <summary>
+            Get the last 24 hour summary of a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>MarketSummary object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderBookAsync(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderBookAsync(System.String,BittrexApi.NetCore.Entities.OrderType)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (BUY | SELL | BOTH)</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetMarketHistoryAsync(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (default = both)</param>
+            <returns>Array of MarketHistory objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.PlaceOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.CancelOrder(System.String)">
+            <summary>
+            Cancel an order.
+            </summary>
+            <param name="id">OpenOrder id</param>
+            <returns>Boolean of cancel attempt</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOpenOrders(System.String)">
+            <summary>
+            Get open orders.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Array of OpenOrder objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.PlaceOrderAsync(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.CancelOrderAsync(System.String)">
+            <summary>
+            Cancel an order.
+            </summary>
+            <param name="id">OpenOrder id</param>
+            <returns>Boolean of cancel attempt</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOpenOrdersAsync(System.String)">
+            <summary>
+            Get open orders.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Array of OpenOrder objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetBalances">
+            <summary>
+            Get account balances
+            </summary>
+            <returns>Array of Balance objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetBalance(System.String)">
+            <summary>
+            Get account balance of a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>Balance object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetDepositAddress(System.String)">
+            <summary>
+            Get an address for a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>String of address</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.WithdrawFunds(System.String,System.Decimal,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.WithdrawFunds(System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <param name="memo">memo/message/tag/paymentid option (optional)</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrder(System.String)">
+            <summary>
+            Get an order
+            </summary>
+            <param name="id">Id of order</param>
+            <returns>OrderDetail object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderHistory(System.String)">
+            <summary>
+            Get order history
+            </summary>
+            <param name="pair">Trading pair to find (optional)</param>
+            <returns>Array of Order objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetDeposits(System.String)">
+            <summary>
+            Get deposit history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetWithdrawals(System.String)">
+            <summary>
+            Get withdrawal history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetBalancesAsync">
+            <summary>
+            Get account balances
+            </summary>
+            <returns>Array of Balance objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetBalanceAsync(System.String)">
+            <summary>
+            Get account balance of a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>Balance object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetDepositAddressAsync(System.String)">
+            <summary>
+            Get an address for a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>String of address</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.WithdrawFundsAsync(System.String,System.Decimal,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.WithdrawFundsAsync(System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <param name="memo">memo/message/tag/paymentid option (optional)</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderAsync(System.String)">
+            <summary>
+            Get an order
+            </summary>
+            <param name="id">Id of order</param>
+            <returns>OrderDetail object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetOrderHistoryAsync(System.String)">
+            <summary>
+            Get order history
+            </summary>
+            <param name="pair">Trading pair to find (optional)</param>
+            <returns>Array of Order objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetDepositsAsync(System.String)">
+            <summary>
+            Get deposit history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.GetWithdrawalsAsync(System.String)">
+            <summary>
+            Get withdrawal history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Core.Helper.StringifyDictionary(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Convert a Dictionary to concatinated querystring
+            </summary>
+            <param name="parameters">Dictionary to convert</param>
+            <returns>Concatinated querystring</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Core.Security.GetHMACSignature(System.String,System.String)">
+            <summary>
+            Get HMAC Signature
+            </summary>
+            <param name="message">Message to sign</param>
+            <param name="apiSecret">Api key secret</param>
+            <returns>string of signed message</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.ValidateExchangeConfigured">
+            <summary>
+            Check if the Exchange Repository is ready for trading
+            </summary>
+            <returns>Boolean of validation</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetMarkets">
+            <summary>
+            Get the open and available trading markets at Bittrex
+            </summary>
+            <returns>Array of Market objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetCurrencies">
+            <summary>
+            Get all supported currencies at Bittrex
+            </summary>
+            <returns>Array of Currency objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetTicker(System.String)">
+            <summary>
+            Get the current tick values for a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Ticker object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetMarketSummaries">
+            <summary>
+            Get the last 24 hour summary of all active markets
+            </summary>
+            <returns>Array of MarketSummary objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetMarketSummary(System.String)">
+            <summary>
+            Get the last 24 hour summary of a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>MarketSummary object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetOrderBook(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetOrderBook(System.String,BittrexApi.NetCore.Entities.OrderType)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (BUY | SELL | BOTH)</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetMarketHistory(System.String)">
+            <summary>
+            Get the latest trades that have occured for a specific market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (default = both)</param>
+            <returns>Array of MarketHistory objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.PlaceOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.CancelOrder(System.String)">
+            <summary>
+            Cancel an order.
+            </summary>
+            <param name="id">OpenOrder id</param>
+            <returns>Boolean of cancel attempt</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetOpenOrders(System.String)">
+            <summary>
+            Get open orders.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Array of OpenOrder objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetBalances">
+            <summary>
+            Get account balances
+            </summary>
+            <returns>Array of Balance objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetBalance(System.String)">
+            <summary>
+            Get account balance of a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>Balance object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetDepositAddress(System.String)">
+            <summary>
+            Get an address for a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>String of address</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.WithdrawFunds(System.String,System.Decimal,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.WithdrawFunds(System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <param name="memo">memo/message/tag/paymentid option (optional)</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetOrder(System.String)">
+            <summary>
+            Get an order
+            </summary>
+            <param name="id">Id of order</param>
+            <returns>OrderDetail object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetOrderHistory(System.String)">
+            <summary>
+            Get order history
+            </summary>
+            <param name="pair">Trading pair to find (optional)</param>
+            <returns>Array of Order objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetDeposits(System.String)">
+            <summary>
+            Get deposit history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.Interfaces.IBittrexRepository.GetWithdrawals(System.String)">
+            <summary>
+            Get withdrawal history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.#ctor">
+            <summary>
+            Constructor for non-signed endpoints
+            </summary>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.#ctor(System.String,System.String)">
+            <summary>
+            Constructor for signed endpoints
+            </summary>
+            <param name="apiKey">Api key</param>
+            <param name="apiSecret">Api secret</param>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.#ctor(System.String)">
+            <summary>
+            Constructor for signed endpoints
+            </summary>
+            <param name="configPath">String of path to configuration file</param>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.LoadRepository">
+            <summary>
+            Load repository
+            </summary>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.ValidateExchangeConfigured">
+            <summary>
+            Check if the Exchange Repository is ready for trading
+            </summary>
+            <returns>Boolean of validation</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetMarkets">
+            <summary>
+            Get the open and available trading markets at Bittrex
+            </summary>
+            <returns>Array of Market objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetCurrencies">
+            <summary>
+            Get all supported currencies at Bittrex
+            </summary>
+            <returns>Array of Currency objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetTicker(System.String)">
+            <summary>
+            Get the current tick values for a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Ticker object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetMarketSummaries">
+            <summary>
+            Get the last 24 hour summary of all active markets
+            </summary>
+            <returns>Array of MarketSummary objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetMarketSummary(System.String)">
+            <summary>
+            Get the last 24 hour summary of a market
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>MarketSummary object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetOrderBook(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetOrderBook(System.String,BittrexApi.NetCore.Entities.OrderType)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (BUY | SELL | BOTH)</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.OnGetOrderBook(System.String)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>OrderBook object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.OnGetOrderBookBuySell(System.String,BittrexApi.NetCore.Entities.OrderType)">
+            <summary>
+            Get the orderbook for a market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return</param>
+            <returns>Array of OrderInterval objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetMarketHistory(System.String)">
+            <summary>
+            Get the latest trades that have occured for a specific market.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="type">Type of orderbook to return (default = both)</param>
+            <returns>Array of MarketHistory objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.PlaceOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.CancelOrder(System.String)">
+            <summary>
+            Cancel an order.
+            </summary>
+            <param name="id">OpenOrder id</param>
+            <returns>Boolean of cancel attempt</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetOpenOrders(System.String)">
+            <summary>
+            Get open orders.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <returns>Array of OpenOrder objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetBalances">
+            <summary>
+            Get account balances
+            </summary>
+            <returns>Array of Balance objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetBalance(System.String)">
+            <summary>
+            Get account balance of a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>Balance object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetDepositAddress(System.String)">
+            <summary>
+            Get an address for a currency
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <returns>String of address</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.WithdrawFunds(System.String,System.Decimal,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.WithdrawFunds(System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <param name="memo">memo/message/tag/paymentid option (optional)</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.OnWithdraw(System.String,System.Decimal,System.String,System.String)">
+            <summary>
+            Withdraw funds from exchange
+            </summary>
+            <param name="symbol">Symbol of currency</param>
+            <param name="quantity">Quantity to withdraw</param>
+            <param name="address">Address to send to</param>
+            <param name="memo">memo/message/tag/paymentid option (optional)</param>
+            <returns>String of withdraw id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetOrder(System.String)">
+            <summary>
+            Get an order
+            </summary>
+            <param name="id">Id of order</param>
+            <returns>OrderDetail object</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetOrderHistory(System.String)">
+            <summary>
+            Get order history
+            </summary>
+            <param name="pair">Trading pair to find (optional)</param>
+            <returns>Array of Order objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetDeposits(System.String)">
+            <summary>
+            Get deposit history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetWithdrawals(System.String)">
+            <summary>
+            Get withdrawal history
+            </summary>
+            <param name="symbol">Symbol to find (optional)</param>
+            <returns>Array of DepositWithdrawal objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetHeaders(System.String)">
+            <summary>
+            Get headers for a secured request
+            </summary>
+            <param name="url">Url to access</param>
+            <returns>Dictionary of headers</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.Data.BittrexRepository.GetSignature(System.String)">
+            <summary>
+            Get signature for endpoint
+            </summary>
+            <param name="message">Message to sign</param>
+            <returns>String of signature</returns>
+        </member>
+    </members>
+</doc>
