@@ -11,8 +11,8 @@
     <RepositoryType></RepositoryType>
     <IsPackable>true</IsPackable>
     <PackageTags>bittrex bitcoin cryptocurrency exchange trading api net standard</PackageTags>
-    <PackageReleaseNotes>Include comments for nuget package</PackageReleaseNotes>
-    <Version>1.2.1</Version>
+    <PackageReleaseNotes>Limit and Market orders</PackageReleaseNotes>
+    <Version>1.2.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

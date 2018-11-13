@@ -217,6 +217,34 @@ namespace BittrexApi.NetCore
         /// <param name="quantity">Quantity to trade</param>
         /// <param name="price">Price of trade</param>
         /// <returns>String of order id</returns>
+        public string LimitOrder(string pair, Side side, decimal quantity, decimal price)
+        {
+            return _repository.PlaceOrder(pair, side, quantity, price).Result;
+        }
+
+        /// <summary>
+        /// Place a market order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <returns>String of order id</returns>
+        public string MarketOrder(string pair, Side side, decimal quantity)
+        {
+            var ticker = _repository.GetTicker(pair).Result;
+            var price = ticker.last;
+
+            return _repository.PlaceOrder(pair, side, quantity, price).Result;
+        }
+
+        /// <summary>
+        /// Place a limit order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <param name="price">Price of trade</param>
+        /// <returns>String of order id</returns>
         public string PlaceOrder(string pair, Side side, decimal quantity, decimal price)
         {
             return _repository.PlaceOrder(pair, side, quantity, price).Result;
@@ -240,6 +268,34 @@ namespace BittrexApi.NetCore
         public OpenOrder[] GetOpenOrders(string pair)
         {
             return _repository.GetOpenOrders(pair).Result;
+        }
+
+        /// <summary>
+        /// Place a limit order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <param name="price">Price of trade</param>
+        /// <returns>String of order id</returns>
+        public async Task<string> LimitOrderAsync(string pair, Side side, decimal quantity, decimal price)
+        {
+            return await _repository.PlaceOrder(pair, side, quantity, price);
+        }
+
+        /// <summary>
+        /// Place a market order.
+        /// </summary>
+        /// <param name="pair">Trading pair</param>
+        /// <param name="side">Side of order</param>
+        /// <param name="quantity">Quantity to trade</param>
+        /// <returns>String of order id</returns>
+        public async Task<string> MarketOrderAsync(string pair, Side side, decimal quantity)
+        {
+            var ticker = await _repository.GetTicker(pair);
+            var price = ticker.last;
+
+            return await _repository.PlaceOrder(pair, side, quantity, price);
         }
 
         /// <summary>

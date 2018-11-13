@@ -138,6 +138,25 @@
             <param name="type">Type of orderbook to return (default = both)</param>
             <returns>Array of MarketHistory objects</returns>
         </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.LimitOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.MarketOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal)">
+            <summary>
+            Place a market order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <returns>String of order id</returns>
+        </member>
         <member name="M:BittrexApi.NetCore.BittrexClient.PlaceOrder(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
             <summary>
             Place a limit order.
@@ -161,6 +180,25 @@
             </summary>
             <param name="pair">Trading pair</param>
             <returns>Array of OpenOrder objects</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.LimitOrderAsync(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
+            <summary>
+            Place a limit order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <param name="price">Price of trade</param>
+            <returns>String of order id</returns>
+        </member>
+        <member name="M:BittrexApi.NetCore.BittrexClient.MarketOrderAsync(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal)">
+            <summary>
+            Place a market order.
+            </summary>
+            <param name="pair">Trading pair</param>
+            <param name="side">Side of order</param>
+            <param name="quantity">Quantity to trade</param>
+            <returns>String of order id</returns>
         </member>
         <member name="M:BittrexApi.NetCore.BittrexClient.PlaceOrderAsync(System.String,BittrexApi.NetCore.Entities.Side,System.Decimal,System.Decimal)">
             <summary>
